@@ -1,0 +1,31 @@
+version: "2.1"
+
+networks:
+  spring_docker_test:
+
+services:
+  app:
+    container_name: application
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - dbpostgres
+    networks:
+      - spring_docker_test
+    volumes:
+      - "C:\\Docker\\spring_docker:/var/springapp/"
+  dbpostgres:
+    image: postgres
+    container_name: dbpostgres
+    ports:
+      - "5432:5432"
+    networks:
+      - spring_docker_test
+    environment:
+      - POSTGRES_DB=spring_docker_db
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_USER=postgres
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - "C:\\Docker\\pgdata:/var/lib/postgresql/data/pgdata/"
